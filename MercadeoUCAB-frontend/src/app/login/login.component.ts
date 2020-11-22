@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router) {
-  //   this.createForm();
+     this.createForm();
     }
 
   ngOnInit(): void {
@@ -94,9 +94,28 @@ export class LoginComponent implements OnInit {
     this.loginService.user.correo_electronico = this.loginForm.value.correo_electronico;
     this.loginService.user.clave = this.loginForm.value.clave;
 
-    if (this.loginForm.valid){
-      this.nextPage();
-    }
+    this.loginService.validateLogin(this.loginService.user)
+      .subscribe(person => {
+
+        /* Limpiar servicio
+        for (var member in this.registerService.user) {
+          delete this.registerService.user[member];
+        };
+
+        this.registerService.user.correo_electronico = '';
+        this.registerService.user.clave = '';*/
+
+        // TODO: Redireccion a la ruta apropiada cuando el auth este listo
+        console.log("Iniciando sesion")
+        //console.log(person)
+      },
+      errorMessage => {
+
+      })
+
+    // if (this.loginForm.valid){
+    //   this.nextPage();
+    // }
     // else{
     //   this.messageService.add({severity:'error', summary: 'Error', detail: 'Hubo datos inválidos o incompletos'});
     // }

@@ -16,5 +16,19 @@ export class LoginService {
     clave: ''
   };
 
-  constructor() { }
+  constructor(private http: HttpClient,
+    private processHTTPMessageService: ProcessHttpMessageService) { }
+
+  validateLogin(user: Person): Observable<Person>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.post<Person>(baseURL + 'login', this.user, httpOptions)
+      .pipe(catchError(this.processHTTPMessageService.handleError))
+  }
+
+
 }
